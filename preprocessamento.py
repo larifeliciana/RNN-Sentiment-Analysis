@@ -3,14 +3,13 @@ import  random
 import nltk
 import datetime
 #nlp = spacy.load('pt')
+nlp = spacy.load('pt_core_news_sm')
 
 stopwords = open("stopwords.txt", encoding="utf-8").read().split("\n")
 #pontuação stopwords lowercase
-neg = open("steam_pt_neg__",encoding="utf-8").read().split("\n")#[0:5000]
-pos = open("steam_pt_pos__",encoding="utf-8").read().split("\n")#[0:5000]
+neg = open("app_pt_neg__",encoding="utf-8").read().split("\n")
+pos = open("app_pt_pos__",encoding="utf-8").read().split("\n")
 
-print("carregou")
-nlp = spacy.load('pt_core_news_sm')
 
 def preprocessamento(lista):
     print("preprocessando...")
@@ -40,12 +39,12 @@ def salvar_lista(endereco, lista):
 nova_pos = preprocessamento(pos)
 nova_neg = preprocessamento(neg)
 
-embaralhar = nova_pos+nova_neg
+docs = nova_pos+nova_neg
 classes = [1]*len(nova_pos) + [0]*len(nova_neg)
 
-z = list(zip(embaralhar, classes))
+z = list(zip(docs, classes))
 random.shuffle(z)
-embaralhar, classes = zip(*z)
+docs, classes = zip(*z)
 
-salvar_lista("docs.txt", embaralhar)
+salvar_lista("docs.txt", docs)
 salvar_lista("classes.txt", classes)
